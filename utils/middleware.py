@@ -45,8 +45,9 @@ important_keywords = [
 
 
 def should_send(message):
-    cleaned_message = re.sub(r'\s+AT\s+\d+\.\d+\s+\(.*\)', '', message)
+    #cleaned_message = re.sub(r'\s+AT\s+\d+\.\d+\s+\(.*\)', '', message)
 
-    if any(keyword in cleaned_message.upper() for keyword in important_keywords):
-        return cleaned_message.strip()
+    #if any(keyword in cleaned_message.upper() for keyword in important_keywords):
+    #    return cleaned_message.strip()
+    return message
     

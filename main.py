@@ -32,7 +32,7 @@ client = TelegramClient(client_name, api_id, api_hash)
 
 
 async def send_to_telegram(message):
-    await client.send_message(destination_channel, message)
+    await client.send_message(destination_channel, message, reply_to=106)
     logging.info(f"Message sent to Telegram: {message}")
 
 
@@ -79,12 +79,18 @@ async def on_message(ws):
             event_type = event.get('t')
             if event_type == 'MESSAGE_CREATE':
                 channel_id = event['d']['channel_id']
+                logging.info(f"{event['d']}")
                 message = event['d']['content']
+                
+                attachment = ""
+                if event['d']['attachments']:
+                    attachment = event['d']['attachments'][0]['proxy_url']
+                    
                 if channel_id == channel_id_to_monitor and message != '':
                     logging.info(f"Message received from Discord: {message}")
                     
                     # comment this line if you dont want to use middlware
-                    cleaned_message = should_send(message)
+                    cleaned_message = should_send(message + " " + attachment)
                     if cleaned_message:
                         await send_to_telegram(f"{cleaned_message}")
 
